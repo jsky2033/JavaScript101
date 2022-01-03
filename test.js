@@ -1,7 +1,12 @@
-let userName = "Max";
+let hobbies = ["Sports"];
+let newHobbies = hobbies;
 
-let anotherUser = userName;
+hobbies.push("Cooking");
 
-userName = 'Manuel';
+console.log(hobbies);
+console.log(newHobbies);
 
-console.log(anotherUser);
+let person1 = { age: 30 };
+let person2 = { age: 30 };
+
+console.log(person1===person2);

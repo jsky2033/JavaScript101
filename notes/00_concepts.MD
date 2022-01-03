@@ -62,3 +62,46 @@ userName = 'Manuel';
 </script>
 
 anotherUser retains the value 'Max' because that value is directly COPIED over. So copying a variable means copy by value for primitive data types. 
+
+## Reference Values
+
+These refer to all other objects. They are more expesnive to create and are stored in the Heap. 
+
+As such the variable only stores a pointer (address) to location in a memory. So think of the variable itself as a memory address such as 00012CCXGW. 
+
+Copying a variable (assigning to different variable) copies the pointer/reference and not the value itself.
+
+<script>
+let hobbies = ["Sports"];
+let newHobbies = hobbies;
+
+hobbies.push("Cooking");
+
+console.log(hobbies); // Sports, Cooking
+console.log(newHobbies); // Sports, Cooking
+
+console.log(newHobbies = hobbies); //Output: true
+
+let person1 = { age: 30 };
+let person2 = { age: 30 };
+
+console.log(person1===person2); // Output: false
+</script>
+
+* As such, both newHobbies and hobbies both have the changes reflected to just  hobbies. This is because copying over the array simply gives the second variable a pointer to the location in memory of the first. 
+
+The same logic applies to objects as well. 
+
+* Since the variables themselves refer to memory addresses, using an equality operator on them will return false when two objects/reference types are set equal to each other even when they contain the same data. 
+
+However note that hobbies and newHobbies are still equal to each other because in that case the pointers are literally the same. 
+
+* Every time you assign the variable to a new array or an object, you create a brand new memory location and a new pointer to it. 
+
+Also note that pushing KV pairs or items to the object will not impact the memory address itself. This is not blockchain. 
+
+## Why is this important?
+
+Because it leads to confusion sometimes when certain arrays or objects are changed seemingly without explanation at times. This is due to the fact that these objects are simply references to other objects and that the 'original' had been changed.
+
+Keep this in mind when setting objects or arrays equal to each other!!!
