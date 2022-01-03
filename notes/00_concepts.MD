@@ -61,13 +61,13 @@ let anotherUser = userName;
 userName = 'Manuel';
 </script>
 
-anotherUser retains the value 'Max' because that value is directly COPIED over. So copying a variable means copy by value for primitive data types. 
+anotherUser retains the value 'Max' because that value is directly COPIED over. So copying a variable means copy by value for primitive data types.
 
 ## Reference Values
 
-These refer to all other objects. They are more expesnive to create and are stored in the Heap. 
+These refer to all other objects. They are more expesnive to create and are stored in the Heap.
 
-As such the variable only stores a pointer (address) to location in a memory. So think of the variable itself as a memory address such as 00012CCXGW. 
+As such the variable only stores a pointer (address) to location in a memory. So think of the variable itself as a memory address such as 00012CCXGW.
 
 Copying a variable (assigning to different variable) copies the pointer/reference and not the value itself.
 
@@ -88,20 +88,54 @@ let person2 = { age: 30 };
 console.log(person1===person2); // Output: false
 </script>
 
-* As such, both newHobbies and hobbies both have the changes reflected to just  hobbies. This is because copying over the array simply gives the second variable a pointer to the location in memory of the first. 
+- As such, both newHobbies and hobbies both have the changes reflected to just hobbies. This is because copying over the array simply gives the second variable a pointer to the location in memory of the first.
 
-The same logic applies to objects as well. 
+The same logic applies to objects as well.
 
-* Since the variables themselves refer to memory addresses, using an equality operator on them will return false when two objects/reference types are set equal to each other even when they contain the same data. 
+- Since the variables themselves refer to memory addresses, using an equality operator on them will return false when two objects/reference types are set equal to each other even when they contain the same data.
 
-However note that hobbies and newHobbies are still equal to each other because in that case the pointers are literally the same. 
+However note that hobbies and newHobbies are still equal to each other because in that case the pointers are literally the same.
 
-* Every time you assign the variable to a new array or an object, you create a brand new memory location and a new pointer to it. 
+- Every time you assign the variable to a new array or an object, you create a brand new memory location and a new pointer to it.
 
-Also note that pushing KV pairs or items to the object will not impact the memory address itself. This is not blockchain. 
+Also note that pushing KV pairs or items to the object will not impact the memory address itself. This is not blockchain.
 
 ## Why is this important?
 
 Because it leads to confusion sometimes when certain arrays or objects are changed seemingly without explanation at times. This is due to the fact that these objects are simply references to other objects and that the 'original' had been changed.
 
 Keep this in mind when setting objects or arrays equal to each other!!!
+
+# Garbage Collection
+
+The OS assigns a certain amount of memory to the Heap that Chrome uses. If there is an overflow of this memory, the OS will usually kill it.
+
+However the browser also does memory management of itself. It does this using the Garbage Collector of the engine which periodically checks the Heap for unused objects (objects without references) and then removes these objects.
+
+<script>
+
+let person = {name: 'Max'};
+person = null;
+
+</script>
+
+What this does is set the variable to null, meaning that the pointer is cleared which means that the object is no longer being used and can be discarded.
+
+In modern browsers, this is taken a step further and there is no reason to set the variable to null after using it because they know to look for use cases before clearing.
+
+Note that setting the variable to null doesn't instantly clear it. Instead the browser uses an alogirthm to determine when to clear it. Though it will eventually be cleared.
+
+# Memory Leaks
+
+This is when you have an object which you do not use but you still have references left for those objects so it cannot be collected.
+
+An easy way to create memory leaks is to add anonymous functions to event listeners.
+
+<script>
+let hobbies = ["a","b","c"];
+attackBtn.addEventListener("click", function (){
+    console.log(hobbies);
+});
+</script>
+
+A brand new function is created every time the button is clicked and the Engine does not know to remove the unused function because it still registers as it still being there on the stack. 
