@@ -29,6 +29,10 @@ display();
 
 This will not generate an error and will output "Manu". Note that the function prioritizes the local scope before moving on to the global scope. 
 
+## Self calling functions
+
+It is entirely possible to call the function immediately as it is defined. However this means it cannot be called by its name afterwards. 
+
 
 ## Return
 

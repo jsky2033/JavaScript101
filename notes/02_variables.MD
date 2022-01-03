@@ -13,15 +13,39 @@ first-Name
 2firstName
 
 Though this is allowed:
-\_firstName
-$firstName
-firstName2
+- \_firstName
+- $firstName
+- firstName2
 
 A small disctinction: const, var and let are not data types. They are different types of definitions. Different data types refer to numbers and strings and the like. 
 
 Despite being a weakly typed language, data types STILL exist in Javascript. Note that '30' and 30 are not the same despite the equality operator stating that it may be true. 
 
 ## Global vs Local Scope
+
+ANY variable created outside of a block (that is let or const) is global and ANY variable of the same nature created inside of a block is local. 
+
+* Variables created in local scope with the same name will be SHADOWED. 
+
+<script>
+let thisName="Max";
+
+function Main(){
+  let thisName = "John";
+  let age = 13;
+  console.log(thisName, age); // Output: John 13
+}
+
+console.log(thisName); // Output: Max
+
+console.log(age); //will produce error
+
+Main();
+</script>
+
+* If it is not already obvious, the local variable definition will be prioritized in local operations and the global one in global operations. 
+
+* Also all the variables above could be changed to const and the code would still work. 
 
 Global variables are present outside functions or code blocks. 
 
@@ -31,14 +55,22 @@ However functions can access other functions and global variables if needed. In 
 
 ## Const, Var and Let
 
+> const -> global scope, block scope
+> let -> global scope, block scope
+> var -> global sscope, function scope
+
+Anything within curly braces counts as local scope for const and let while only function counts as local scope for var. Everything else is global. 
+
 ### Const
 
 Variables cannot be changed. They should be used as much as possible and only switch to let if you want to change it. It is used to make the code easier to understand. 
 
 Note that const variables cannot be set to anything else after declaration even if they are set to the same thing. 
 
+<script>
 const max=30;
 max=30;
+</script>
 
 Is still an illegal operation!
 
@@ -46,7 +78,82 @@ Also they HAVE to be declared upon initialization. You cannot initialize and re-
 
 ### Let
 
-Variables can be changed.
+Variables can be changed. The distingushing feature from Var is that it is global scoped as shown above. 
+
+### Var
+
+Var has been available from ES5 but let and const have not been introduced until ES6. 
+
+* Note that variables that do not have a type definition will have by default, the definition var. 
+
+- A minor difference is that var can be redeclared with the latest declaration being the valid one. This is not the case with const and let.
+
+The following will work!
+
+<script>
+var thisName="Max";
+var thisName="Pax";
+
+console.log(thisName);
+</script>
+
+- The big difference is that var only knows global scope and function scope. Whereas let and const concern themselves with block scope (curly braces) and global scope. 
+
+<script>
+var thisName = "Max";
+
+if (thisName === "Max") {
+  var hobby = "cooking";
+}
+
+function Main() {
+  let thisName = "John";
+  let age = 13;
+  var hobby2 = "cooking";
+  console.log(thisName, age); // Output: John 13
+}
+
+Main();
+
+console.log(thisName, hobby); // Output: Max cooking
+
+console.log(thisName, hobby2); // will not work
+</script>
+
+As shown above, hobby is accessible despite being declared inside of a block but hobby2 is not accessible since it is inside of a function.
+
+- var variables are assigned an undefined value when they are hoisted. Const and let are also hoisted but they are not initialized so any attempt to use them will result in an uncaught error.
+
+<script>
+console.log(password); // Output: undefined
+console.log(username); // Output: Error
+
+var password = 1234;
+let userName="Max";
+</script>
+
+On the other hand, this is not very clean code in itself. However this may be a good way of determining where an undefined log comes from!
+
+## When to use the type defintions?
+
+Let and Const forces you to write better, cleaner code as it gives you much greater control on where you want to use your variables. 
+
+As a guideline, there is no real reason to use var anymore. 
+
+* However note that const and let are not supported in pre-ES6 environments so in that case you would have to use var. 
+
+
+## Strict Mode
+
+<script>
+// 'use strict';
+
+userName = 'jack';
+
+console.log(userName);
+</script>
+
+What this does is disable certain permissive behavior such as a default type definition. 
 
 ## Primitives vs Objects
 
@@ -110,6 +217,8 @@ Casting would help if this were a strongly typed language however in this case w
 <script>
 //convert string to integer
 parseInt(value);
+//convert to float (decimal numbers)
+parseFloat(value);
 //convert integer to string
 value.toString();
 </script>
