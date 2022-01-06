@@ -6,6 +6,26 @@ If you are using functions imported from another script, make sure to import tha
 
 This applies for variables in script imports as well. You can reference these variables correctly as long as the script imports are in the right order. 
 
+* A very slight detail: Concrete values passed into the function are called arguments while variables passed into it are called parameters. 
+
+# Functions vs. Methods
+
+Functions can be placed inside of objects and used through the object.
+
+<script>
+const person = {
+    name: "Max",
+    greet: function greet(){
+        console.log('Hello there!');
+    }
+}
+</script>
+
+A function created this way is called a Method and this means it is essentially a function that is part of an object. Very similar to how functions were defined in Java and C++. Except with Javscript there is no need to make objects from classes as objects can be created by thesmelves. 
+
+A function that is defined in the traditional way (through an expression or defintion) can be called a Function. 
+
+
 ## Hoisting
 
 Functions are hoisted by Javascript so function DEFINITIONS can be declared after they are used/called. 
@@ -43,3 +63,6 @@ Something to watch out for: try not to place these in other functions as this wi
 ## Event Listeners
 
 Functions can be added as event listeners. However parantheses should be avoided because that will immediately call the function!
+
+Functions can be called directly or indirectly with the indirect method being to add it to an event listener. 
+
