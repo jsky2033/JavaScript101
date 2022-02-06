@@ -14,6 +14,8 @@ The difference is that the else ifs are all related to the other prepending cond
 
 However if one of the first conditions is met, the seperate if may also execute! There is no reliance on the first condition failing.
 
+* So use an else if, if there is no possibility of more than one condition being true at the same time. 
+
 ## Comparing objects and arrays
 
 Two objects and arrays that are identical will not pass the conditional check with == OR ===. HOWEVER, directly comparing the identical elements inside will pass the conditional.
@@ -100,6 +102,8 @@ if(!!userName){
 
 This is done so that we have, with absolute certainty a true boolean value for username and do not rely on the conditional checking a truthy value.
 
+Check absolutely for false by doing !!!
+
 ### Default value assignment
 
 This is a value to provide a default value for a variable if a value for that variable no longer exists (it is a falsy value).
@@ -135,5 +139,5 @@ switch(event){
 }
 </script>
 
-If more complex conditions or combined conditions are required, then else if is suggested. 
+If more complex conditions or combined conditions are required, then else if is suggested.  Finally is code that gets executed no matter what. 
 

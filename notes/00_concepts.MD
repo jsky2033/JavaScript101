@@ -63,6 +63,8 @@ userName = 'Manuel';
 
 anotherUser retains the value 'Max' because that value is directly COPIED over. So copying a variable means copy by value for primitive data types.
 
+* It is important to note that some primitive values can temporarily act as objects in that they can have functions associated with them. This is because some of them belong to classes such as String. A good example are the String functions such as .toUpperCase();
+
 ## Reference Values
 
 These refer to all other objects. They are more expesnive to create and are stored in the Heap.
@@ -138,4 +140,4 @@ attackBtn.addEventListener("click", function (){
 });
 </script>
 
-A brand new function is created every time the button is clicked and the Engine does not know to remove the unused function because it still registers as it still being there on the stack. 
+A brand new function is created every time the button is clicked and the Engine does not know that this new function is the exact same as the function before it. Therefore there is no technical 'removal' of the function itself through garbage collection since the function is ever present. 
