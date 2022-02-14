@@ -222,15 +222,16 @@ function printCoordinates(){
   console.log(this.x); // output: 5
 }
 
-const c1_func = printCoordinates.bind(c1);
+const c1_func = printCoordinates.bind(c1); // new function is old function bound to object
 
 c1_func();
 </script>
 
+Bind is also a very good way of tying event handlers to dynamic or repeated Elements as they are considered Node Objects. Please see Project 5 for a very clear example. 
+
 ## Do not use with arrow function ()=>
 
 You cannot rebind this in an arrow function. It will always be defined as the context in which it was defined. If you require this to be meaningful you should use a normal function.
-
 
 
 
