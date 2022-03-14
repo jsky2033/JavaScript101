@@ -174,7 +174,7 @@ list.insertAdjacentHTML('beforeend', '<li>Something</li>')
 // beforend means just inside element, after last child. There are other options
 </script>
 
-- createElement: This is always called on the document itself, NOT on any other element. 
+- createElement: This is always called on the document itself, NOT on any other element.
 
 <script>
 const list = document.querySelector("ul");
@@ -188,21 +188,21 @@ list.appendChild(newLi);
 list.firstElementChild.after(newLi); // after the first entry in the list
 </script>
 
-The obvious advantage is that properties of the element can now be modified before it is added to the bigger element. 
+The obvious advantage is that properties of the element can now be modified before it is added to the bigger element.
 
-* append vs appendChild:
+- append vs appendChild:
 
 The difference is that append is used to add an element in the form of a Node object or a DOM String(text) but appendChild only accepts an object!
 
-append can also be used to add multiple elements but adding the same element over again will not work (which makes sense as each node is an object with a reference value) so in this case simply clone a new node. 
+append can also be used to add multiple elements but adding the same element over again will not work (which makes sense as each node is an object with a reference value) so in this case simply clone a new node.
 
-* IMPORTANT: Internet Explorer does not support appendChild/append. 
+- IMPORTANT: Internet Explorer does not support appendChild/append.
 
-There are also other methods like before and after that can be used with the inner elements themselves. 
+There are also other methods like before and after that can be used with the inner elements themselves.
 
 ## Static and Dynamic Elements
 
-The NodeList is a snapshot of the DOM and does not keep track of future changes to the DOM object that was selected. 
+The NodeList is a snapshot of the DOM and does not keep track of future changes to the DOM object that was selected.
 
 <script>
 const list = document.querySelector("ul");
@@ -218,8 +218,44 @@ newLi.textContent = "Item 4";
 list.append(newLi);
 </script>
 
-However it really is reccomended that you use querySelector instead. 
+However it really is reccomended that you use querySelector instead.
 
 ## Remove Element
 
-The simple remove() method called on the element reference itself should work but it does not work for Internet Explorer. 
+The simple remove() method called on the element reference itself should work but it does not work for Internet Explorer.
+
+Would this create a memory leak if we had a function that is an
+event handler that is tied to this element? No! This is because Javascript understands that if an object is removed from the DOM, all functions related to it are also removed!
+
+# Caution about Event Listeners and Functions when using bind!
+
+It may seem prudent at times to add event listeners to elements dynamically as, often times, the event listeners need to be given access to references to newly created elements. However this can be a problem.
+
+<script>
+  deletionButton.addEventListener("click", deleteMovie.bind(this));
+</script>
+
+If deletionButton is a global variable, then we are esentially giving the element's click listeners more functions every time we run this code. Which means if it is clicked twice, the function will execute twice.
+
+An additional problem is that .bind() will create a new function with a brand new signature. Therefore we must remove this newly created function if we are to use this function again.
+
+The solution:
+
+<script>
+let boundDeleteMovieFcn;
+function deleteMovie() {
+  toggleRemovalModal();
+  deletionButton.removeEventListener("click", boundDeleteMovieFcn);
+  // then update the movie list in state
+}
+// reveal delete movie modal
+function deleteMoviePrompt() {
+  toggleRemovalModal();
+  boundDeleteMovieFcn = deleteMovie.bind(this);
+  deletionButton.addEventListener("click", boundDeleteMovieFcn);
+}
+</script>
+
+See how much trouble React saves you?!!
+
+There you do not need to worry about adding multiple event listeners to an elment at all! Mainly because you can use state hooks to highlight the selected item!

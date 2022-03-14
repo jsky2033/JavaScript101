@@ -10,3 +10,7 @@ Since ES6, changes are now added in a more incremental way.
 # Const, Var and Let
 
 Const and Let are for ES6 while var has been used since es5. 
+
+# Arrow Functions
+
+This was added in ES6.

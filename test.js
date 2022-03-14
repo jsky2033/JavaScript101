@@ -1,15 +1,33 @@
+const person1 = { name: "Max" };
+const person2 = { name: "Manuel" };
 
-const arr = [5,4,30,-3,2.5];
-let max = arr[0];
+const personData = new Map([
+  [
+    person1,
+    [
+      { date: "yesterday", price: 300 },
+      { date: "today", price: 400 },
+    ],
+  ],
+  [
+    person2,
+    [
+      { date: "yesterday", price: 800 },
+      { date: "today", price: 100 },
+    ],
+  ],
+]);
 
-for(let i = 1; i < arr.length; i++){
-  console.log(`Iteration ${i}: arr[${i}](${arr[i]})>max(${max})?`)
-  if (arr[i] > max){
-    max = arr[i];
-    console.log(`Yes! So max is now ${max}`)
-  }else{
-    console.log(`No! So max is still ${max}`)
-  }
+// add a new purchase to person2's array
+personData.set(person2, [
+  ...personData.get(person1),
+  { date: "next week", price: 20 },
+]);
+// output all the K/V pairs (no need to use values like for Sets)
+for (const [key, value] of personData.entries()) {
+  console.log(key, value);
 }
-
-
+// output the keys only (same for values)
+for (const key of personData.keys()) {
+  console.log(key);
+}

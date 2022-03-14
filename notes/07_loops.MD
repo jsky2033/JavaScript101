@@ -91,14 +91,14 @@ These would be an alternative to an if-else statement when iterating.
     // break
 for(let i=0; i<5; i++){
   if(i===3){
-    break;
+    break; // stop this loop entirely!
   }
   console.log(i);
 }
     // continue
 for(let i=0; i<5; i++){
   if(i===3){
-    break;
+    continue; // skip over this iteration and go to next
   }
   console.log(i);
 }
