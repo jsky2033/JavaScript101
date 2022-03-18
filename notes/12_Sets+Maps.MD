@@ -101,3 +101,15 @@ for (const key of personData.keys()) {
   console.log(key);
 }
 </script>
+
+## WeakSets 
+
+WeakSets are just like Sets but with two important differences. 
+
+- They can contain objects only and not arbitrary values
+- They are weak meaning references to the objects in there are held weakly. If they are no references to this object then those objects will be garbage collected. 
+
+That is, an object's presence as a key in a WeakMap does not prevent the object from being garbage collected. 
+
+## WeakMaps
+
