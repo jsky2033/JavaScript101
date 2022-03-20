@@ -111,5 +111,33 @@ WeakSets are just like Sets but with two important differences.
 
 That is, an object's presence as a key in a WeakMap does not prevent the object from being garbage collected. 
 
+<script>
+let person = {name: 'Max'};
+const persons = new WeakSet();
+persons.add(persons);
+
+// ..some operations
+person = null;
+
+console.log(persons);
+</script>
+
+In this case we are setting up the person object to be garbage collected. Note that you still cannot force garbage collection to take place. 
+
 ## WeakMaps
 
+WeakMaps are similar in regards to garbage collection and limited methods. 
+
+<script>
+let person = {name: 'Max'};
+const persons = new WeakMap();
+
+persons.set(person, 'Extra info!');
+
+// ..some operations
+person = null;
+
+console.log(persons);
+</script>
+
+Note that this is used in more advanced applications where memory management is an issue. 

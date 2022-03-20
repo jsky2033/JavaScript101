@@ -2,9 +2,9 @@
 
 A variable is simply a container for some data. JavaScript is a weakly typed language meaning there is no type associated with the variable.
 
-Best practice for variable names is always camelCase. It is a bad practice to use snake-case: user_name. 
+Best practice for variable names is always camelCase. It is a bad practice to use snake-case: user_name.
 
-It is not necessary to 'end' code with semicolon but it is reccomended. 
+It is not necessary to 'end' code with semicolon but it is reccomended.
 
 The only names that are not allowed is:
 fist Name
@@ -13,19 +13,20 @@ first-Name
 2firstName
 
 Though this is allowed:
+
 - \_firstName
 - $firstName
 - firstName2
 
-A small disctinction: const, var and let are not data types. They are different types of definitions. Different data types refer to numbers and strings and the like. 
+A small disctinction: const, var and let are not data types. They are different types of definitions. Different data types refer to numbers and strings and the like.
 
-Despite being a weakly typed language, data types STILL exist in Javascript. Note that '30' and 30 are not the same despite the equality operator stating that it may be true. 
+Despite being a weakly typed language, data types STILL exist in Javascript. Note that '30' and 30 are not the same despite the equality operator stating that it may be true.
 
 ## Global vs Local Scope
 
-ANY variable created outside of a block (that is let or const) is global and ANY variable of the same nature created inside of a block is local. 
+ANY variable created outside of a block (that is let or const) is global and ANY variable of the same nature created inside of a block is local.
 
-* Variables created in local scope with the same name will be SHADOWED. 
+- Variables created in local scope with the same name will be SHADOWED.
 
 <script>
 let thisName="Max";
@@ -43,15 +44,15 @@ console.log(age); //will produce error
 Main();
 </script>
 
-* If it is not already obvious, the local variable definition will be prioritized in local operations and the global one in global operations. 
+- If it is not already obvious, the local variable definition will be prioritized in local operations and the global one in global operations.
 
-* Also all the variables above could be changed to const and the code would still work. 
+- Also all the variables above could be changed to const and the code would still work.
 
-Global variables are present outside functions or code blocks. 
+Global variables are present outside functions or code blocks.
 
 It is considered bad practice to involve global variables inside the function itself. This is because functions should be self contained units. This is known as a pure function.
 
-However functions can access other functions and global variables if needed. In fact it can be used quite well as long as things dont get too complicated. Try not to mix these things up though. 
+However functions can access other functions and global variables if needed. In fact it can be used quite well as long as things dont get too complicated. Try not to mix these things up though.
 
 ## Const, Var and Let
 
@@ -59,13 +60,13 @@ However functions can access other functions and global variables if needed. In 
 > let -> global scope, block scope
 > var -> global sscope, function scope
 
-Anything within curly braces counts as local scope for const and let while only function counts as local scope for var. Everything else is global. 
+Anything within curly braces counts as local scope for const and let while only function counts as local scope for var. Everything else is global.
 
 ### Const
 
-Variables cannot be changed. They should be used as much as possible and only switch to let if you want to change it. It is used to make the code easier to understand. 
+Variables cannot be changed. They should be used as much as possible and only switch to let if you want to change it. It is used to make the code easier to understand.
 
-Note that const variables cannot be set to anything else after declaration even if they are set to the same thing. 
+Note that const variables cannot be set to anything else after declaration even if they are set to the same thing.
 
 <script>
 const max=30;
@@ -74,19 +75,19 @@ max=30;
 
 Is still an illegal operation!
 
-Also they HAVE to be declared upon initialization. You cannot initialize and re-assign later. This is not like final classes that can be declared but not initialized. 
+Also they HAVE to be declared upon initialization. You cannot initialize and re-assign later. This is not like final classes that can be declared but not initialized.
 
 ### Let
 
-Variables can be changed. The distingushing feature from Var is that it is global scoped as shown above. 
+Variables can be changed. The distingushing feature from Var is that it is global scoped as shown above.
 
 ### Var
 
-Var has been available from ES5 but let and const have not been introduced until ES6. 
+Var has been available from ES5 but let and const have not been introduced until ES6.
 
-* Note that variables that do not have a type definition will have by default, the definition var. 
+- Note that variables that do not have a type definition will have by default, the definition var.
 
-- A minor difference is that var can be redeclared with the latest declaration being the valid one. This is not the case with const and let.
+* A minor difference is that var can be redeclared with the latest declaration being the valid one. This is not the case with const and let.
 
 The following will work!
 
@@ -97,7 +98,7 @@ var thisName="Pax";
 console.log(thisName);
 </script>
 
-- The big difference is that var only knows global scope and function scope. Whereas let and const concern themselves with block scope (curly braces) and global scope. 
+- The big difference is that var only knows global scope and function scope. Whereas let and const concern themselves with block scope (curly braces) and global scope.
 
 <script>
 var thisName = "Max";
@@ -136,12 +137,11 @@ On the other hand, this is not very clean code in itself. However this may be a 
 
 ## When to use the type defintions?
 
-Let and Const forces you to write better, cleaner code as it gives you much greater control on where you want to use your variables. 
+Let and Const forces you to write better, cleaner code as it gives you much greater control on where you want to use your variables.
 
-As a guideline, there is no real reason to use var anymore. 
+As a guideline, there is no real reason to use var anymore.
 
-* However note that const and let are not supported in pre-ES6 environments so in that case you would have to use var. 
-
+- However note that const and let are not supported in pre-ES6 environments so in that case you would have to use var.
 
 ## Strict Mode
 
@@ -153,7 +153,7 @@ userName = 'jack';
 console.log(userName);
 </script>
 
-What this does is disable certain permissive behavior such as a default type definition. 
+What this does is disable certain permissive behavior such as a default type definition.
 
 ## Primitives vs Objects
 
@@ -177,7 +177,7 @@ This is used in the same way as all the other languages.
 
 ### Objects
 
-Independent data type for grouping and relating data. Introduces key/value pairs and the like. 
+Independent data type for grouping and relating data. Introduces key/value pairs and the like.
 
 ### Arrays
 
@@ -206,13 +206,13 @@ This means that a value from one type can be converted to another type on the fl
 5 + 10 + 'b' = 15b
 'b' + 5 + 10 = b510
 100-'30' = 70
-100*'30'=300
+100\*'30'=300
 
 ### Data Type Conversion
 
-Usually when data is retrieved from user inputs, it gets them as strings instead of numbers. As such it can be hard to do numerical operations. 
+Usually when data is retrieved from user inputs, it gets them as strings instead of numbers. As such it can be hard to do numerical operations.
 
-Casting would help if this were a strongly typed language however in this case we need to use parseInt. This will extract out the integer.  This can be complicated if actual text characters are attempted to be converted though.
+Casting would help if this were a strongly typed language however in this case we need to use parseInt. This will extract out the integer. This can be complicated if actual text characters are attempted to be converted though.
 
 <script>
 //convert string to integer
@@ -223,15 +223,24 @@ parseFloat(value);
 value.toString();
 </script>
 
-
 ### null/undefined/NaN
 
-Undefined is the default value for uninitialized variables. DO NOT manually assign undefined as a value. 
+Undefined is the default value for uninitialized variables. DO NOT manually assign undefined as a value.
 
-Null is never assumed by default and is useful in 'clearing' a variable. 
+Null is never assumed by default and is useful in 'clearing' a variable.
 
-NaN is more like an error code that occurs when operations occur with non number values. (eg: 3*hi).
+NaN is more like an error code that occurs when operations occur with non number values. (eg: 3\*hi).
 
 ### typeof
 
-This allows for the type of a variable at runtime to be discovered. Numbers, string, arrays and objects are detected. Note that array is counted as type of object. 
+This allows for the type of a variable at runtime to be discovered. Numbers, string, arrays and objects are detected. Note that array is counted as type of object.
+
+## Assigning multiple variables
+
+<script>
+//assign to different variables
+let name1="Jack", name2="Jill";
+//assign to the same variable
+let name1,name2;
+name1=name2="James";
+</script>

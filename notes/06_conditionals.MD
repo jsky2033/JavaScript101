@@ -141,3 +141,5 @@ switch(event){
 
 If more complex conditions or combined conditions are required, then else if is suggested.  Finally is code that gets executed no matter what. 
 
+# A note on the { }
+

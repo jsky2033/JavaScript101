@@ -345,6 +345,20 @@ console.log("Copied array: " + copiedNameFragments); // Output: James,Black
 
 Note that you are creating a brand new array here. This allows you to avoid the pitfalls of copying over reference values as mentioned before.
 
+The spread operator can also be used when functions want to accept an undetermined number of parameters.
+
+Note that even in the destructured state of the accepted parameter, it is still possible to treat the inputs as a single array
+
+<script>
+const findMax = (...numbers) => {
+  let max = numbers[0];
+  for (const num of numbers) {
+    if (num > max) max = num;
+  }
+  return max;
+};
+</script>
+
 ## Be careful when about inner reference values when copying reference values!!!
 
 However you should note that this ONLY applies to the copied array itself! Not to any reference values that may be inside of it.
@@ -383,9 +397,17 @@ Now we can forcefully create new objects based off the old objects. Note that th
 
 That is fine as long as we do not want to copy those over. Instead of copying all the reference values over, think about what you want to copy over specifically.
 
+# Extract and Assign from an Array
+
+This gets the first two elements out of the array and assigns them.
+
+<script>
+const [mininmum, maximum] = [35,34,21,34];
+</script>
+
 # Destructuring Arrays
 
-Let us say we only want to use specific elements from an array. This saves us the time of accessing the array via index or value. 
+Let us say we only want to use specific elements from an array. This saves us the time of accessing the array via index or value.
 
 <script>
 const persons = [
