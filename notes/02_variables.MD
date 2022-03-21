@@ -189,7 +189,7 @@ Undefined means that the variable was created but nothing was assigned to it. No
 
 ### Null
 
-This means the variable was created but it was explicitly given no value at all.
+This is used when we want to actively clear out a value which is previously held. 
 
 ## Operators
 

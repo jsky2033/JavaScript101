@@ -103,13 +103,25 @@ So if you want to look for .com in the string you do:
 
 Let us say we want to ensure the user input is 5 characters long exactly. \[a-z]{5} would certainly catch that but would NOT take into account anything after that. 
 
-So for example the user could type in 'dcscsdcscd' and it would still be a match as the first 5 are counted! If global is used, 2 matches are made. 
+So for example the user could type in 'dcscsdcscd' and it would still be a match as the first 5 are counted! If global is used, 2 matches are made as there are a total of 10 characters. 
 
 ^[a-z]{5}$
 
 What this does is state that the string has to be at the start and the end (respectively) of the form field. Which means that it is essentially mushed together and therefore limited to exactly 5 characters. Any more will cause no matches to be found. 
 
 The two patterns can be used induvidually as well!
+
+## Advanced example
+
+- ^\s+|\s+$
+
+Here we are looking for whitespace at the start and end of the string. Note that the OR is ensuring we also check from the end of the string and also ensures the match is made even when one of the mentioned is met. 
+
+If we wanted a match made where whitespace has to be on both the start AND the end of the string then:
+
+- ^\s.+\s$
+
+Note that + is avoided after whitespace since just one match will do. The plus is there after the dot because there may be any number of characters in between the whitespaces.
 
 # Matching multiple cases
 
@@ -123,7 +135,7 @@ This would give you a match if you entered pyre or tyre.The difference between t
 
 * (short|tall)? boy
 
-This will look for all instances of 'boy' since the question mark is used. 
+This will look for all instances of 'boy' since the question mark is used (which means the preceding character is optional which is then applied to the whole paranthesees). 
 
 ## AND
 
