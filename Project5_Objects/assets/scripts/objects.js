@@ -10,6 +10,7 @@ state objects.
 This is not necessary in React because React does 
 this for you. See Light? React can be helpful :P
 */
+
 //STATE
 const state = {
   movies: [],
@@ -34,17 +35,21 @@ const renderMovies = (filter = "") => {
     : movies.filter((movie) => movie.info.title.includes(filter));
   //render all movies
   filteredMovies.forEach((movie) => {
+    const { info } = movie; //get info from movie
     const movieEl = document.createElement("li");
     /*
     Note how we run into an issue here. We want to use extraName here but
     it is not really an accessible variable in this scope. It is function
     scoped (well more accurately block scoped since it is const) to the
     addMovieHandler!
+    However this only works because we know that anything that is not title
+    is this. Things could get complicated if more than one dynamic field
+    is used or if there are many set keys. 
     */
-    let text = `${movie.info.title} - `;
-    for (const key in movie.info) {
+    let text = `${info.title.toUpperCase()} - `;
+    for (const key in info) {
       if (key !== "title") {
-        text += `${key}: ${movie.info[key]}`;
+        text += `${key}: ${info[key]}`;
       }
     }
     movieEl.textContent = text;
@@ -67,7 +72,7 @@ const addMovieHandler = () => {
       title,
       [extraName]: extraValue,
     },
-    id: Math.random(),
+    id: Math.random().toString(),
   };
 
   state.movies.push(newMovie);

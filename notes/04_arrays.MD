@@ -6,7 +6,7 @@ Arrays are not limited by size in JavaScript and are declared like variables. Th
 
 An iterable is an object that has the iterator method and Symbol. This means we can use a for-of loop on this. Not all iterables are arrays though!
 
-An Array-like Object has a length property and uses indexes to access items. NodeLists and Strings are an example of this.
+An Array-like Object has a length property and uses indexes to access items. NodeLists and Strings are an example of this. They also have access to the array class methods. 
 
 # Array class static methods
 

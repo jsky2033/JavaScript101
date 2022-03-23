@@ -46,7 +46,7 @@ startGameBtn.addEventListener("click", function () {
 });
 </script>
 
-# Arrow Syntax
+# Arrow Syntax () =>
 
 The use of arrow syntax for function expressions has extra utilities. For one the arrow syntax assumes you will return the result of an expression (such as an operation or a ternary expression). As such there is no need for the return keyword IF THERE IS ONLY ONE LINE. This is especially helpful if you want to perform some quick calculation.
 
@@ -210,7 +210,7 @@ The reason to do this is that otherwise, when the function is invoked, 'this' wi
 
 The point is convinience when it comes to parameters. This way functions can be written in such a way that they do not need an excessive amount of parameters passed into it. An example of this is React components where the 'this' can be used to refer to props instead of referring to the passes in props by name.
 
-The easiest way to think about it is giving each object its own function based on a template.
+The easiest way to think about it is giving each object its own function based on a template. Sort of how a class-based object would act with its own functions!
 
 <script>
 const c1 = {

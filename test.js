@@ -1,10 +1,20 @@
-const person = {
-  name: "Max",
-  age: 30,
-  hobbies: ["Sports", "Cooking"],
-  greet: function () {
-    alert("Hi there!");
+const members = {
+  set teamName(val) {
+    if (val.trim() === "") {
+      this._teamName = "Default Name"; // _teamName is the INTERNAL reference
+      return;
+    }
+    this._teamName = val;
+  },
+  get teamName() {
+    return !this._teamName ? "Default Name" : this._teamName;
+  },
+  people: ["Max", "Manuel"],
+  getTeamMembers() {
+    this.people.forEach((p) => {
+      console.log(`${p} - ${this._teamName}`); //use internal reference
+    });
   },
 };
 
-person.greet();
+console.log(members.teamName);
