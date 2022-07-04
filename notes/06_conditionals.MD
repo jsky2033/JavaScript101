@@ -1,5 +1,8 @@
 # Operators
 
+## &&
+
+
 ## == vs ===
 
 The latter checks for value AND type equality! It is what is most reccomended as one should care about what type is being compared.

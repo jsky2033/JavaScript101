@@ -225,7 +225,7 @@ The button is 'this' in the context of the searchMovieHandler function. Again, t
 
 ## () => Arrow Functions
 
-This special ES6 function format do not bind 'this' to anything. It will always refer to the global window itself and will never be overridden. Given this (pun intended again I'm sorry I'll stop :P ) weakness why use it at all with objects?
+This special ES6 function format do not bind 'this' to anything. It will always refer to whatever is on the outside of the function (which may be a global scope or block scope) and will never be overridden. Given this (pun intended again I'm sorry I'll stop :P ) weakness why use it at all with objects?
 
 What if the function inside the object would like to iterate through lists or arrays in the object itself:
 
@@ -233,9 +233,11 @@ What if the function inside the object would like to iterate through lists or ar
 const members = {
   teamName: "Blue Rockets",
   people: ["Max", "Manuel"],
+  //using 'this' would refer to the global scope on the outside of this function
   getTeamMembers() {
-    // this.people.forEach(function (p) { will lead to a global 'this' as it is called without an object
+    // this.people.forEach(function (p) { will have 'this' refer to the global scope. Don't ask how
     this.people.forEach((p) => {
+      //using 'this' would refer to the  the outside of this function (teamName and people) 
       console.log(`${p} - ${this.teamName}`);
     });
   },
@@ -244,9 +246,11 @@ const members = {
 members.getTeamMembers();
 </script>
 
+Since "members" is a variable that exists in the global scope, 'this' will refer to that scope which means that it wil
+
 Note that this ensures the arrow syntax when iterating will ensure that there is no binding in the iterating function of 'this' to anything. Thus 'this' will fall back to the outer binding which comes from the outer function that identifies 'this as the current object.
 
-## Calling an Object method on a different Object
+## Calling an Object method on a different Object: 'this' is constant!!
 
 <script>
 const person = {
@@ -291,6 +295,10 @@ const members = {
   },
 };
 
+// properties are accessed the same way:
+members.teamName = "Johan";
+console.log(members.teamName);
+
 console.log(members.teamName); // will return Default Name
 members.getTeamMembers(); // will have undefined for team name
 
@@ -298,4 +306,4 @@ members.teamName = "Red Rockets";
 members.getTeamMembers();
 </script>
 
-* Keep in mind that there is no internal default value for _teamName until it is set. If you want to do this the solution is to use a Proxy. 
+- Keep in mind that there is no internal default value for \_teamName until it is set. If you want to do this the solution is to use a Proxy.

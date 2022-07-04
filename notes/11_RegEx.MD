@@ -86,6 +86,12 @@ Any character whatsoever. 'car.' will look for a 4-character string where any ch
 
 This means zero or as many times as possible. So card[a-z]* means card and anything after that. 
 
+* A powerful combo: .*
+
+This means any character whatsoever as many times as possible. Therrefore it could be used to look for certain words in a string. For example, james and jack in any order would be:
+
+james.*jack|jack.*james
+
 * What is the difference between * and + ?
 
 a*  ---> a{0,}  ---> Match a or aa or aaaaa or an empty string

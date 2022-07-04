@@ -17,4 +17,5 @@ const members = {
   },
 };
 
+members.teamName = "Johan";
 console.log(members.teamName);

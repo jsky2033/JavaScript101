@@ -98,7 +98,7 @@ var thisName="Pax";
 console.log(thisName);
 </script>
 
-- The big difference is that var only knows global scope and function scope. Whereas let and const concern themselves with block scope (curly braces) and global scope.
+- The big difference is that var only knows global scope and function scope so it will be scope limited only by a function. Whereas let and const will be scope limited by curly braces. 
 
 <script>
 var thisName = "Max";

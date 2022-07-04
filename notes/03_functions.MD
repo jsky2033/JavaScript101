@@ -133,7 +133,9 @@ It is entirely possible to call the function immediately as it is defined. Howev
 
 Nothing after the return statement will be returned. There are some instances of "return-less" functions but they are mainly for HTTP requests.
 
-Something to watch out for: try not to place these in other functions as this will only return out of that specific function!
+Something to watch out for: try not to place these in other functions as this will only return out of that specific function!!
+
+Note that this returns from a FUNCTION, not a STATEMENT. It will break right through any statements you put it into. 
 
 ## Event Listeners
 
@@ -201,7 +203,7 @@ sumUp(
 
 # bind()
 
-This is so that an object is bound to a function and then that object is referenced in that function by the 'this' keyword.
+This is so that an object is bound to a function (and a new object-specific function is created) and then that object is referenced in that function by the 'this' keyword.
 
 The reason to do this is that otherwise, when the function is invoked, 'this' will refer to the document itself and not be locally scoped to the object.
 
@@ -210,7 +212,7 @@ The reason to do this is that otherwise, when the function is invoked, 'this' wi
 
 The point is convinience when it comes to parameters. This way functions can be written in such a way that they do not need an excessive amount of parameters passed into it. An example of this is React components where the 'this' can be used to refer to props instead of referring to the passes in props by name.
 
-The easiest way to think about it is giving each object its own function based on a template. Sort of how a class-based object would act with its own functions!
+The easiest way to think about it is giving each object its own function based on a template. Sort of how a class-based object would act with its own functions! Except you create a new function each time. 
 
 <script>
 const c1 = {
@@ -236,3 +238,7 @@ You cannot rebind this in an arrow function. It will always be defined as the co
 # call() and apply()
 
 This does the same as bind() but they execute the function immediately instead of preparing the functions.
+
+# Overloading
+
+One aspect that not many people ever think about with JavaScript is that if you define multiple functions with the same name then the last one defined will be the one that actually runs. JavaScript functions are not polymorphic the way that functions in many other languages are in that JavaScript doesn't care if the actual arguments defined for the functions are different as it can't distinguish between them on that basis. Where in other languages you might have myfunc(oneparm) and myfunc(parmone, parmtwo) as two separate functions with the one that gets run depending on the number of parameters passed, in JavaScript the last one defined will always be the one run regardless of the number of parameters.
