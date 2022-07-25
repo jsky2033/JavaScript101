@@ -77,6 +77,16 @@ Is still an illegal operation!
 
 Also they HAVE to be declared upon initialization. You cannot initialize and re-assign later. This is not like final classes that can be declared but not initialized.
 
+Note that this does not apply to the contents of an object or array which can be changed even though they are const. 
+
+<script>
+  // both are legal
+const course2 = new Course("Python 2202", "4hrs10min", 20.2);
+const a1 = [34, 53];
+course2.title = "Jaws 101";
+a1[0] = 3;
+</script>
+
 ### Let
 
 Variables can be changed. The distingushing feature from Var is that it is global scoped as shown above.

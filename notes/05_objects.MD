@@ -219,11 +219,13 @@ Remember we said earlier that 'this' refers to whatever is calling the object. T
 
 <script>
 searchBtn.addEventListener("click", searchMovieHandler);
+searchBtn.addEventListener("click", ()=>searchMovieHandler()); // working alternative!
+
 </script>
 
 The button is 'this' in the context of the searchMovieHandler function. Again, this is only if an arrow function is NOT used.
 
-## () => Arrow Functions
+## () => Arrow Functions: One advantage!
 
 This special ES6 function format do not bind 'this' to anything. It will always refer to whatever is on the outside of the function (which may be a global scope or block scope) and will never be overridden. Given this (pun intended again I'm sorry I'll stop :P ) weakness why use it at all with objects?
 
@@ -234,8 +236,8 @@ const members = {
   teamName: "Blue Rockets",
   people: ["Max", "Manuel"],
   //using 'this' would refer to the global scope on the outside of this function
-  getTeamMembers() {
-    // this.people.forEach(function (p) { will have 'this' refer to the global scope. Don't ask how
+  getTeamMembers: function () {
+    // this.people.forEach(function (p) { will have 'this' refer to the global scope. Don't ask how. So we instead use:
     this.people.forEach((p) => {
       //using 'this' would refer to the  the outside of this function (teamName and people) 
       console.log(`${p} - ${this.teamName}`);
@@ -245,8 +247,6 @@ const members = {
 
 members.getTeamMembers();
 </script>
-
-Since "members" is a variable that exists in the global scope, 'this' will refer to that scope which means that it wil
 
 Note that this ensures the arrow syntax when iterating will ensure that there is no binding in the iterating function of 'this' to anything. Thus 'this' will fall back to the outer binding which comes from the outer function that identifies 'this as the current object.
 

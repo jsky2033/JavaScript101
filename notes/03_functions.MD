@@ -16,7 +16,7 @@ A function is essentially an object and is, as such, placed in the Heap along wi
 
 Functions are hoisted by Javascript so function DEFINITIONS can be declared after they are used/called.
 
-However function EXPRESSIONS(functions that use let and const) do not have this utility.
+However function EXPRESSIONS(arrow functions) do not have this utility.
 
 Hoisting also works with variables somewhat. However it should be noted that there is no need to initialize variables.
 

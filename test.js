@@ -1,21 +1,25 @@
-const members = {
-  set teamName(val) {
-    if (val.trim() === "") {
-      this._teamName = "Default Name"; // _teamName is the INTERNAL reference
-      return;
-    }
-    this._teamName = val;
-  },
-  get teamName() {
-    return !this._teamName ? "Default Name" : this._teamName;
-  },
-  people: ["Max", "Manuel"],
-  getTeamMembers() {
-    this.people.forEach((p) => {
-      console.log(`${p} - ${this._teamName}`); //use internal reference
-    });
-  },
-};
+class Post {
+  // properties
+  title = "DEFAULT";
+  imageUrl;
+  creatorId;
 
-members.teamName = "Johan";
-console.log(members.teamName);
+  constructor(newTitle) {
+    this.title = newTitle;
+  }
+}
+
+class ImagePost extends Post {
+  constructor(title) {
+    super(title);
+  }
+  imageUrl;
+  imageDescription;
+}
+
+class VideoPost extends Post {
+  videoUrl;
+  rating;
+}
+
+console.log(new ImagePost("Longing for Pineapples"));
