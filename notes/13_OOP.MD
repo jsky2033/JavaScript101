@@ -84,11 +84,6 @@ class ShoppingCart {
   items = [];
   totalOutput;
 
-  set cartItems(value) {
-    this.items = value;
-    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2`; // call GETTER
-  }
-
   get totalAmount() {
     const sum = this.items.reduce(
       (prevValue, curItem) => prevValue + curItem.price,
@@ -96,6 +91,12 @@ class ShoppingCart {
     );
     return sum;
   }
+  
+  set cartItems(value) {
+    this.items = value;
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2`; // call GETTER (look at the function name)
+  }
+
 
   addProduct(product) {
     const updatedItems = [...this.items, product];
@@ -104,6 +105,8 @@ class ShoppingCart {
 </script>
 
 Note that the getter is called instead of the variable directly. Also note that the setter is called by setting it equal to whatever you want to pass in as the parameter for it.
+
+TLDR: think of the functions as the attribute itself and pretend that you are accessing the attribute directly but using different names when you do so. 
 
 # Inheritance
 
@@ -137,6 +140,10 @@ Let us say there is a constructor in the main class. How will the subclass handl
 # Overriding Methods
 
 This occurs when there is a method in the subclass that has the same name as an inherited method. In this case, the method in the subclass will override the inherited method. Note that whenevr this.method gets called in either the constructor or a method, it will always refer to the overriding method!!
+
+## A note on overloading
+
+Unlike its parent, Javascript does not support overloading. Instead the code will look for the last definition of the function and use that. 
 
 <script>
   class Component{
@@ -174,7 +181,7 @@ What does this mean?
 
 - Each inherited class can define 'render' on its own and when this.render() occurs, 'this' will ALWAYS refer to the object calling it. So each render() will be native to the subclass.
 
-- The parent class constructor (super) will ALWAYS be the first section of code to execute when the object is instantiated. So 'this.products' will lead to an error because the 'products' property has not been created or given its value yet in the context of the object!!
+- The parent class constructor (super) will ALWAYS be the FIRST section of code to execute when the object is instantiated. So 'this.products' will lead to an error because the 'products' property has not been created or given its value yet in the context of the object!!
 
 BE CAREFUL WHEN CALLING SUB-CLASS METHODS IN THE CONSTRUCTOR OF THE PARENT CLASS as they may contain references to properties inside the class which will not been initialized yet!
 
@@ -245,3 +252,15 @@ class ProductList extends Component {
   }
 }
 </script>
+
+## instanceOf
+
+There is a way for us to track which kind of class an object is created from. This also applies for parent classes as well as shown below.
+
+<script>
+var newPost = new ImagePost("Longing for Pineapples");
+
+console.log(newPost instanceof Post);
+</script>
+
+# Object Descriptors

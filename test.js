@@ -1,25 +1,10 @@
-class Post {
-  // properties
-  title = "DEFAULT";
-  imageUrl;
-  creatorId;
+const person = {
+  name: "Max",
+  greet() {
+    console.log(this.name);
+  },
+};
 
-  constructor(newTitle) {
-    this.title = newTitle;
-  }
-}
+person.greet();
 
-class ImagePost extends Post {
-  constructor(title) {
-    super(title);
-  }
-  imageUrl;
-  imageDescription;
-}
-
-class VideoPost extends Post {
-  videoUrl;
-  rating;
-}
-
-console.log(new ImagePost("Longing for Pineapples"));
+console.log(Object.getOwnPropertyDescriptors(person));
