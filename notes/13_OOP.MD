@@ -71,6 +71,18 @@ Static properties and methods are defined with the static keyword and is only ac
 
 So we essentially want to use this as state, ie: data that will not change despite page reloads and the like.
 
+<script>
+class AgedPerson {
+  printAge() {
+    console.log(this.age);
+  }
+  static standardMsg(){
+    console.log("Respect your elders!");
+  }
+}
+
+</script>
+
 # Instances of classes
 
 Note that all instances of classes are object literals! This means that they have the same properties and functionality of object literals.
@@ -84,7 +96,7 @@ class ShoppingCart {
   items = [];
   totalOutput;
 
-  get totalAmount() {
+  get getTotalAmount() {
     const sum = this.items.reduce(
       (prevValue, curItem) => prevValue + curItem.price,
       0
@@ -92,21 +104,21 @@ class ShoppingCart {
     return sum;
   }
   
-  set cartItems(value) {
+  set setCartItems(value) {
     this.items = value;
-    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2`; // call GETTER (look at the function name)
+    this.totalOutput.innerHTML = `<h2>Total: \$${this.getTotalAmount}</h2`; // call GETTER (look at the function name)
   }
 
 
   addProduct(product) {
     const updatedItems = [...this.items, product];
-    this.cartItems = updatedItems; // CALL SETTER, equivalent to: cartItems(updatedItems)
+    this.setCartItems = updatedItems; // CALL SETTER, equivalent to: cartItems(updatedItems)
   }
 </script>
 
 Note that the getter is called instead of the variable directly. Also note that the setter is called by setting it equal to whatever you want to pass in as the parameter for it.
 
-TLDR: think of the functions as the attribute itself and pretend that you are accessing the attribute directly but using different names when you do so. 
+TLDR: think of the functions as the attribute itself and pretend that you are accessing the attribute directly but using different names when you do so.
 
 # Inheritance
 
@@ -143,7 +155,7 @@ This occurs when there is a method in the subclass that has the same name as an 
 
 ## A note on overloading
 
-Unlike its parent, Javascript does not support overloading. Instead the code will look for the last definition of the function and use that. 
+Unlike its parent, Javascript does not support overloading. Instead the code will look for the last definition of the function and use that.
 
 <script>
   class Component{
@@ -263,4 +275,134 @@ var newPost = new ImagePost("Longing for Pineapples");
 console.log(newPost instanceof Post);
 </script>
 
-# Object Descriptors
+# Constructor Functions
+
+A Constructor function acts just like a class. In fact, behind the scenes, a constructor function is used whenever a class is used. The class is just syntactical sugar for the constructor function.
+
+The first and last lines of the constructor function are what happens behind the scenes.
+
+<script>
+  function Person() {
+
+  console.log("Person constructor function called...");
+
+    // this = {};
+  this.age = 30;
+  this.name = "Max";
+
+  this.greet = function () {
+    console.log(`Hello I am ${this.name} and I am ${this.age} years old`);
+  };
+
+// static functions
+  Person.describe = function(){
+    console.log('Creating persons...');
+  }
+  // return this;
+}
+
+const person = new Person(); // this 'new' keyword is what creates the instantation
+person.greet();
+
+console.log(person.toString()); // will return object
+console.log(person.toStr()); // will throw error
+
+Person(); // doesn't have to be called with "new"
+
+</script>
+
+Note that Person() is called without the keyword new. When it is called this way, it will
+execute the code inside of it directly. When it is called in instantiation, the same will happen but an object is then created. 
+
+# Prototypes
+
+Prototypes are essentially fall-back objects that every instance of a class or its subclasses can access in order to get methods or attributes that those methods lack.
+
+Javascript uses Prototypical Inheritance. Constructor Functions and Prototypes power Javascript Objects.
+
+Every constructor function you build has a prototype property there by default. The prototype is an object itself and every object has one. It is a fallback object meaning it is what Javascript looks at if there is some property or method it cannot find in the original object.
+
+Of course the prototype itself has a prototype. If JS cannot find the method in the prototype, it then goes into it's prototype and then goes through the entire prototype chain until it finds what it is looking for. It it does not then and only then will it return undefined or throw an error.
+
+Think of the prototype as a base class. Look at line 287: the code has found a function called toString() in the PROTOTYPE of the person class!
+
+The very last prototype is the prototype of the base Object class!
+
+## Prototypes inn other parts of Javascript
+
+Note that in the MDN docs, there are a bunch of prototypes that are commonplace. Specifically in the Array and String classes.
+
+## Prototype of Instantiation vs Prototype of Class/Constructor Function
+
+person.proto : this refers to the prototype of the Instantiation itself (the object itself essentially)
+
+Person.prototype: this refers to the blueprint of the prototype that will be assigned to any object you build out of this specific Constructor function or class. This is how you can change the prototypes of objects!
+
+<script>
+Person.prototype = {
+  printAge() {
+    console.log(this.age);
+  },
+};
+person.printAge(); // will print out age despite it not being defined in the Person class/
+
+// a quicker way:
+
+Person.prototype.printAge = function(){
+  console.log(this.age);
+}
+
+// this way also ensures you do not replace the prototype object for Person. 
+
+// the equivalent:
+
+class Induvidual{
+  printAge() {
+    console.log(this.age);
+  },
+}
+
+class Person extends Induvidual{
+ // person object does not have printAge but it's prototype object does!!
+}
+</script>
+
+This is essentially what happens behind the scenes when you do Subclass extends Class. JavaScript essentially changes the prototype for the subclass so that all of its objects now have parent class attributes and methods in their prototypes.
+
+So when you extend you are changing the SUBCLASS prototype object.
+
+# The Object Class
+
+This is the ultimate fallback class that all other classes are based out of. All other classes inherit this one's method and its prototype is the fallback object of all other objects created.
+
+Note that the class itself is not the base prototype!! The prototype object is.
+
+# Using methods in event listeners
+
+<script>
+class Person extends AgedPerson{
+  name = "Max";
+
+  constructor() {
+    super();
+    this.age = 30;
+  }
+
+  greet() {
+    console.log(`Hello I am ${this.name} and I am ${this.age} years old`);
+  }
+
+  greetWorking = () => {
+    console.log(`Hello I am ${this.name} and I am ${this.age} years old`);
+  }
+}
+
+const person = new Person();
+const btnRef = document.querySelector('#btnSubmit');
+
+btnRef.addEventListener("click", person.greet); // ERROR, 'this' has global context
+btnRef.addEventListener("click",person.greet.bind(person));  // SUCCESS, new function where 'this' is person 
+btnRef.addEventListener("click", person.greetWorking); // SUCCESS, 'this' has local context
+</script>
+
+#
