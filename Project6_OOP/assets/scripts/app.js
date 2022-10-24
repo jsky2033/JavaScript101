@@ -1,233 +1,216 @@
-// class for internal Product representation
-class Product {
-  // properties
-  title = "DEFAULT";
-  imageUrl;
-  description;
-  price;
+/*
+        A note on all the binding. This is done to make sure the function being passed
+        to an object of another class still knows that 'this' refers to the original class.
 
-  //constructor methods
-  constructor(title, image, desc, price) {
-    this.title = title;
-    this.imageUrl = image;
-    this.description = desc;
-    this.price = price;
-  }
-}
+        ProjectListA: addProject ---> ProjectListB: switchHandler, this=> ProjectListA
+        ProjectList: switchProject ---> ProjectItem: updateProjectListsHandler, this => ProjectList
 
-class ElementAttribute {
-  constructor(attrName, attrValue) {
-    this.name = attrName;
-    this.value = attrValue;
-  }
-}
+        In the first case the function transfer is done by using setter.
+        In the second case the function transfer is done using a constructor. 
 
-// This class instance takes in another element ID when it is created.
-// This is so that the HTML element that gets created can be attached to it.
-// It should be noted that this class instance does not 'hold' the component itself,
-// but rather provides component functions as it is a parent class.
+        The point of giving functions in one class to another class is to enable
+        comms between the classes. This is done via components in React but in there
+        no binding is necessary!
 
-class Component {
-  hookId;
-
-  /*
-What is a renderhook? Essentially it is the element on the DOM we are appending 
-the components to. In this case it is the <div> element with the id of 'app'
+        Remember there you can just you setState on child elements. There is no need to bind
+        to ensure the function can access parent class/component items. 
 */
-  constructor(renderHookId, shouldRender = true) {
-    this.hookId = renderHookId;
-    if (shouldRender) {
-      this.render();
-    } // will always refer to render() in the subclass
+
+class DOMHelper {
+  static moveElement(elementId, newDestinationSelector) {
+    /*
+      Doing it this way simply moves the HTML element. It does not make a copy!
+    */
+    const element = document.getElementById(elementId);
+    const destinationElement = document.querySelector(newDestinationSelector);
+    destinationElement.append(element);
   }
 
-  render() {}
-  /*
-  The idea behind this function is to create an HTML element, set its classes
-  and append it to the html hook whose ID is included in the object instantiation itself
-  before returning the DOM Element. 
-
-  This element can then be given its inner HTML through the code. 
-
-  Note that with this, it is not necessary to return the child component that extends it
-  in the render() method. That is because it has already been created and appended to its
-  appropriate hook element. You just need to return the reference to its place in the DOM. 
-
-  */
-  createRootElement(tag, cssClasses, attributes) {
-    const rootElement = document.createElement(tag);
-    if (cssClasses) {
-      rootElement.className = cssClasses;
-    }
-    if (attributes && attributes.length > 0) {
-      for (const attr of attributes) {
-        rootElement.setAttribute(attr.name, attr.value);
-      }
-    }
-    document.getElementById(this.hookId).append(rootElement);
-    return rootElement;
+  static clearEventListeners(element) {
+    const clonedElement = element.cloneNode(true);
+    element.replaceWith(clonedElement);
+    return clonedElement;
   }
 }
 
-class ShoppingCart extends Component {
-  items = [];
-  totalOutput;
+class Component {}
 
-  constructor(renderHook) {
-    super(renderHook, false);
-    this.render();
+class Tooltip {
+  constructor(closeNotifierFunction) {
+    this.closeNotifierHandler = closeNotifierFunction;
   }
+  closeTooltip = () => {
+    this.detach();
+    this.closeNotifierHandler();
+  };
+  /*
+  Note the advantage of using an arrow function: 
 
-  set cartItems(value) {
-    this.items = value;
-    this.totalOutput.innerHTML = `<h2>Total: \$${this.totalAmount}</h2`; // call getter like this
-  }
-
-  get totalAmount() {
-    const sum = this.items.reduce(
-      (prevValue, curItem) => prevValue + curItem.price,
-      0
-    );
-    return sum;
-  }
-
-  // this function is to be 'given' to the Product Element component
-  addProduct(product) {
-    const updatedItems = [...this.items, product];
-    this.cartItems = updatedItems; // CALL SETTER like this
-  }
-
-  // this function is to be called by this Component
-  orderProducts = () => {
-    console.log("Ordering...");
-    console.log(this.items);
+  If an arrow function is used, 'this' will always refer to the local context. 
+  So there is no need to bind!!
+  */
+  detach = () => {
+    this.element.remove();
   };
 
-  render() {
-    const cartEl = this.createRootElement("section", "cart");
-    cartEl.innerHTML = `
-    <h2>Total: \$${0}</h2>
-    <button>Order Now!</button>
-    `;
-    const orderButton = cartEl.querySelector("button");
-    orderButton.addEventListener("click", this.orderProducts);
-    this.totalOutput = cartEl.querySelector("h2"); // tying property to HTML display
+  attach(extraInfo) {
+    const tooltipElement = document.createElement("div");
+    tooltipElement.className = "card";
+    tooltipElement.textContent = extraInfo;
+    tooltipElement.addEventListener("click", this.closeTooltip);
+    this.element = tooltipElement;
+    document.body.append(tooltipElement);
   }
 }
 
-// class for Product rendering as HTML
-class ProductElement extends Component {
-  constructor(product, renderHook) {
-    super(renderHook, false);
-    this.product = product;
-    this.render();
+class ProjectItem {
+  constructor(id, updateProjectListsFunction, type) {
+    this.id = id;
+    this.updateProjectListsHandler = updateProjectListsFunction;
+    this.connectMoreInfoButton();
+    this.connectSwitchButton(type);
   }
+
+  hasActiveTooltip = false;
+
+  showMoreInfoHandler() {
+    if (this.hasActiveTooltip) {
+      return;
+    }
+    /*
+    we want to give the tool tip the ability to tell the project Item whether
+    it is open or not. The closeNotifier now toggles the Project Item's state variable.
+
+    Now each tooltip can only be open once
+    */
+    const tooltip = new Tooltip(() => {
+      this.hasActiveTooltip = false;
+    });
+    tooltip.attach(this.extraInfo);
+    this.hasActiveTooltip = true;
+  }
+
+  connectMoreInfoButton() {
+    const projectItemElement = document.getElementById(this.id);
+    const moreInfoItemBtn = projectItemElement.querySelector(
+      "button:first-of-type"
+    );
+    this.extraInfo = projectItemElement.dataset.extraInfo;
+    moreInfoItemBtn.addEventListener(
+      "click",
+      this.showMoreInfoHandler.bind(this)
+    );
+  }
+
   /*
-  Remember that the product component is what needs the 'add to cart' functionality. 
-  It needs to be able to update the contents of the cart component. 
-
-  It does this by using a static method in the main global App class to give the product
-  data entity over to the cart component (which is static to the App class) that adds it
-  to its items list (which is by extension also static now.)
+  Here we want the click of the button to update both of the lists. We do this by
+  giving it an event handler that allows the button to do this when it is clicked. 
   */
-  addToCart() {
-    App.addProductToCart(this.product);
-    console.log(`Adding ${this.product.title} to cart`);
+  connectSwitchButton(type) {
+    const projectItemElement = document.getElementById(this.id);
+    let switchBtn = projectItemElement.querySelector("button:last-of-type");
+    switchBtn = DOMHelper.clearEventListeners(switchBtn);
+
+    switchBtn.textContent = type === "active" ? "Finish" : "Activate";
+    /*
+    Note that there is a problem here. switchProject needs to take in a project ID.
+    Therefore we bind the updateProjects Handler and pass in parameters that way. 
+
+    For some reason, the switchProjectFunction that was passed over still stays bound
+    to the ProjectLists object. 
+    */
+    switchBtn.addEventListener(
+      "click",
+      this.updateProjectListsHandler.bind(null, this.id)
+    );
   }
 
-  render() {
-    const prodEl = this.createRootElement("li", "product-item");
-    prodEl.innerHTML = `
-          <div>
-          <img src="${this.product.imageUrl}" alt="${this.product.title}">
-          <div class="product-item__content">
-          <h2>${this.product.title}</h2>
-          <h3>\$${this.product.price}</h3>
-          <p>${this.product.description}</p>          <button>Add to Cart</button>
-          </div>
-          </div>
-          `;
-    const addCartButton = prodEl.querySelector("button");
-    addCartButton.addEventListener("click", this.addToCart.bind(this));
+  update(updateProjectsListsFn, type) {
+    this.updateProjectListsHandler = updateProjectsListsFn;
+    this.connectSwitchButton(type);
   }
 }
 
-class ProductList extends Component {
-  #products = [
-    new Product(
-      "A Pillow",
-      "./assets/pictures/pillow.webp",
-      "A soft pillow!",
-      19.99
-    ),
-    new Product(
-      "A Carpet",
-      "./assets/pictures/carpet.jpg",
-      "An expensive carpet which you may like!",
-      59.99
-    ),
-  ];
-
-  constructor(renderHook) {
-    super(renderHook, false);
-    this.render();
-  }
-
-  render() {
-    this.createRootElement("ul", "product-list", [
-      new ElementAttribute("id", "prod-list"),
-    ]);
-    // not the use of 'this' to refer to a global context.
-    // if local context needed, inner arrow function required!
-    for (const prod of this.#products) {
-      // note that this just creates an object. To get back
-      // the HTML you need to run the render() method
-      new ProductElement(prod, "prod-list");
+class ProjectList {
+  projects = [];
+  constructor(type) {
+    this.type = type;
+    const projectItems = document.querySelectorAll(`#${type}-projects li`);
+    /*
+    We give each ProjectItem the ability to switch from one project list to
+    another. Along with the HTML id so it can access the element by reference. 
+    */
+    for (const projectItem of projectItems) {
+      // note that passing the reference to the project (id) is more efficient
+      this.projects.push(
+        new ProjectItem(
+          projectItem.id,
+          this.switchProject.bind(this),
+          this.type
+        )
+      );
     }
   }
+
+  // the switchProject firsts gives the project to switchHandler and then removes it
+  // from the project list
+  switchProject(projectId) {
+    //give specified project in projects [] and give it to switchHandler function
+    this.switchHandler(this.projects.find((p) => p.id === projectId));
+
+    //remove project from project list
+    const projectIndex = this.projects.findIndex((p) => p.id === projectId);
+    this.projects.splice(projectIndex, 1);
+  }
+
+  /*
+  Why not set the switch handler in the constructor? Because we need both instances to be
+  finished in order to reach out to them. This is because the switch handler needs to 
+  communicate between both projects lists (add from one and remove from the other)
+  */
+
+  // switchHandler function adds this project to the other list
+  setSwitchHandlerFunction(switchHandlerFunction) {
+    this.switchHandler = switchHandlerFunction;
+  }
+
+  addProject(project) {
+    this.projects.push(project);
+    DOMHelper.moveElement(project.id, `#${this.type}-projects ul`);
+    /*
+    We switched the project from ProjectListA to ProjectListB! Therefore the ProjectItem
+    instance needs to have its updateLists/switchHandler/addProject function updated such 
+    that it now refers to the other project. 
+    */
+    project.update(this.switchProject.bind(this), this.type);
+  }
 }
 
-class Shop {
-  constructor() {
-    this.render();
-  }
-  render() {
-    /*
-    The shopping cart object is now native to any object created by 'Shop'.
-    Notice that since we have created an instance of shopping cart, it is
-    now dynamic and can be changed. 
-
-    Also note that we create it and mention what it should be appended to. 
-    */
-    this.cart = new ShoppingCart("app"); // cart of Shop component
-    new ProductList("app");
-    /*
-    Why is productList not included in the static context? Because it has a set amount
-    of data that never changes.
-    */
-  }
-}
-
-// global class
 class App {
-  /*
-  By making cart static here, we make the instance of cart (derived from the instance of shop)
-  a static part of this App class!
-  */
-  static cart;
-
   static init() {
-    const shop = new Shop();
-    this.cart = shop.cart; // cart of Shop component passed over by reference
-  }
+    const activeProjectsList = new ProjectList("active");
+    const finishedProjectsList = new ProjectList("finished");
+    /*
+    This sets the switchHandlerFunction of activeProjects to the addProject function
+    which is inside of finishedProjects. This makes sense because when the switchProject
+    function is activated in activeProjects, we want it to eventually activate addProject
+    in the finishedProjects on the same project!
 
-  /*
-  Now this function can be called by any of the functions inside the sub-classes
-  and the 'this' inside it will refer to the static class itself and the properties
-  inside of it. 
-  */
-  static addProductToCart(product) {
-    this.cart.addProduct(product);
+    Semantically, we want this project to be added to finished projects when it is removed
+    frrom activeProjects. 
+
+    We bound the handler to finishedProjects because we need 'this' in the handler
+    to refer to the finishedProjects object. 
+
+
+    */
+    activeProjectsList.setSwitchHandlerFunction(
+      finishedProjectsList.addProject.bind(finishedProjectsList)
+    );
+
+    finishedProjectsList.setSwitchHandlerFunction(
+      activeProjectsList.addProject.bind(activeProjectsList)
+    );
   }
 }
 

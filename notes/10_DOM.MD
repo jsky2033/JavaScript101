@@ -259,3 +259,13 @@ function deleteMoviePrompt() {
 See how much trouble React saves you?!!
 
 There you do not need to worry about adding multiple event listeners to an elment at all! Mainly because you can use state hooks to highlight the selected item!
+
+# Event Handlers and Classes
+
+Defining event handler functions inside of classes can be tricky because 'this' inside of an event handler function will always refer to the event target itself (the element) and not the class attributes. The way to ensure that the handler looks at the class is to bind it to the class instance.
+
+See Project 6 for a clear example. 
+
+<script>
+    moreInfoItemBtn.addEventListener("click", this.showMoreInfoHandler.bind(this));
+</script>

@@ -48,8 +48,11 @@ In the past this was solved by putting the script tags at the bottom of the body
 
 Async and defer both tell the browser to keep parsing/loading while we are waiting for the network request to be fulfilled. The difference is what to do with the code once it is retrieved. 
 
-async -> pause parsing and execute code!
-defer -> keep parsing and perform execution at the end!
+no keyword -> pause parsing while fetching and execute code before parsing 
+async -> keep parsing while fetching but then pause parsing and execute code before parsing 
+defer -> keep parsing while fetching and even after that perform execution only at the end!
+
+A reason that certain event handler scripts such as GTM codes may be placed at the very top might be that the scripts need to be present when the HTML elements are there. 
 
 ## async
 
