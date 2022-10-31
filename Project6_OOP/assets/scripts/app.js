@@ -12,8 +12,9 @@
         comms between the classes. This is done via components in React but in there
         no binding is necessary!
 
-        Remember there you can just you setState on child elements. There is no need to bind
-        to ensure the function can access parent class/component items. 
+        Remember there you can just you pass functions to setState on child elements. 
+        There is no need to bind to ensure the function can access parent class/component 
+        items. 
 */
 
 class DOMHelper {
@@ -33,11 +34,36 @@ class DOMHelper {
   }
 }
 
-class Component {}
+class Component {
+  constructor(hostElementId, insertBefore = false) {
+    if (hostElementId) {
+      this.hostElement = document.getElementById(hostElementId);
+    } else {
+      this.hostElement = document.body;
+    }
+    this.insertBefore = insertBefore;
+  }
 
-class Tooltip {
-  constructor(closeNotifierFunction) {
-    this.closeNotifierHandler = closeNotifierFunction;
+  detach() {
+    if (this.element) {
+      this.element.remove();
+    }
+  }
+
+  attach() {
+    this.hostElement.insertAdjacentElement(
+      this.insertBefore ? "afterbegin" : "beforeend",
+      this.element
+    );
+  }
+}
+
+class Tooltip extends Component {
+  constructor(closeNotifierFunction, text, hostElementId) {
+    super(hostElementId);
+    this.closeNotifier = closeNotifierFunction;
+    this.text = text;
+    this.create();
   }
   closeTooltip = () => {
     this.detach();
@@ -53,13 +79,18 @@ class Tooltip {
     this.element.remove();
   };
 
-  attach(extraInfo) {
+  create() {
     const tooltipElement = document.createElement("div");
     tooltipElement.className = "card";
-    tooltipElement.textContent = extraInfo;
+    // USING TEMPLATES EXAMPLE
+    const tooltipTemplate = document.getElementById("tooltip");
+    const tooltipBody = document.importNode(tooltipTemplate.content, true);
+    tooltipBody.querySelector("p").textContent = this.text;
+    tooltipElement.append(tooltipBody);
+    // USING TEMPLATES EXAMPLE
+
     tooltipElement.addEventListener("click", this.closeTooltip);
     this.element = tooltipElement;
-    document.body.append(tooltipElement);
   }
 }
 
@@ -81,12 +112,21 @@ class ProjectItem {
     we want to give the tool tip the ability to tell the project Item whether
     it is open or not. The closeNotifier now toggles the Project Item's state variable.
 
-    Now each tooltip can only be open once
+    Now each tooltip can only be open once.
+
+    Note that using an arrow function essentially makes 'this' the local context. There
+    is no need to bind it to the class instantiation. 
     */
-    const tooltip = new Tooltip(() => {
-      this.hasActiveTooltip = false;
-    });
-    tooltip.attach(this.extraInfo);
+    const projectItemElement = document.getElementById(this.id);
+    const toolTipText = projectItemElement.dataset.extraInfo;
+    const tooltip = new Tooltip(
+      () => {
+        this.hasActiveTooltip = false;
+      },
+      toolTipText,
+      this.id
+    );
+    tooltip.attach();
     this.hasActiveTooltip = true;
   }
 
@@ -95,7 +135,6 @@ class ProjectItem {
     const moreInfoItemBtn = projectItemElement.querySelector(
       "button:first-of-type"
     );
-    this.extraInfo = projectItemElement.dataset.extraInfo;
     moreInfoItemBtn.addEventListener(
       "click",
       this.showMoreInfoHandler.bind(this)
@@ -211,6 +250,26 @@ class App {
     finishedProjectsList.setSwitchHandlerFunction(
       activeProjectsList.addProject.bind(activeProjectsList)
     );
+
+    const timerId = setTimeout(() => {
+      console.log("Hello There");
+    }, 3000);
+
+    document.getElementById("start-analytics").addEventListener("click", () => {
+      this.startAnalytics();
+    });
+
+    document.getElementById("stop-greeting").addEventListener("click", () => {
+      clearTimeout(timerId);
+    });
+  }
+
+  static startAnalytics() {
+    const analyticsScript = document.createElement("script");
+    analyticsScript.src = "assets/scripts/analytics.js";
+    analyticsScript.defer = true;
+
+    document.head.append(analyticsScript);
   }
 }
 

@@ -312,7 +312,7 @@ Person(); // doesn't have to be called with "new"
 </script>
 
 Note that Person() is called without the keyword new. When it is called this way, it will
-execute the code inside of it directly. When it is called in instantiation, the same will happen but an object is then created. 
+execute the code inside of it directly. When it is called in instantiation, the same will happen but an object is then created.
 
 # Prototypes
 
@@ -405,4 +405,28 @@ btnRef.addEventListener("click",person.greet.bind(person));  // SUCCESS, new fun
 btnRef.addEventListener("click", person.greetWorking); // SUCCESS, 'this' has local context
 </script>
 
-#
+# Event Handlers and Classes
+
+Defining event handler functions inside of classes can be tricky because 'this' inside of an event handler function will always refer to the event target itself (the element) and not the class attributes. The way to ensure that the handler looks at the class is to bind it to the class instance.
+
+See Project 6 for a clear example.
+
+<script>
+    moreInfoItemBtn.addEventListener("click", this.showMoreInfoHandler.bind(this));
+</script>
+
+Note that this can also be avoided by using arrow functions in the event listener which will cause it to always refer to 'this' in the local context. In the case below, the event listener will understand that 'this' refers to the local class. 
+
+<script>
+  class App{
+  static init() {
+    document.getElementById("start-analytics").addEventListener("click", () => {
+      this.startAnalytics();
+    });
+  }
+
+  static startAnalytics() {
+    // some code
+  }
+  }
+</script>

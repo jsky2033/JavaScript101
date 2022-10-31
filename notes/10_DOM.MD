@@ -260,12 +260,99 @@ See how much trouble React saves you?!!
 
 There you do not need to worry about adding multiple event listeners to an elment at all! Mainly because you can use state hooks to highlight the selected item!
 
-# Event Handlers and Classes
+# DOMStringMap
 
-Defining event handler functions inside of classes can be tricky because 'this' inside of an event handler function will always refer to the event target itself (the element) and not the class attributes. The way to ensure that the handler looks at the class is to bind it to the class instance.
-
-See Project 6 for a clear example. 
+This is a map that allows you to store data about an element. See the example in Project 6. The data in it is contained within the dataset property and you set it like this with the "data-" prepend. 
 
 <script>
-    moreInfoItemBtn.addEventListener("click", this.showMoreInfoHandler.bind(this));
+     <li
+          id="p3"
+          data-extra-info="Super important conference! Fictional but still!"
+          class="card"
+        >
+</script>
+
+This is now avaliable as extraInfo in the DOMStringMap
+
+# Template Tag
+
+This is a useful piece of HTML due to the fact that it is not rendered at the beginnning. Instead it is loaded into the DOM and can be accessed by Javascript. 
+
+There is an example of this in Project 6. 
+
+# Dynamic Script Addition
+
+This is done if you want to control when certain pieces of Javascript runs. Such as if you only want to import some Javascript when and only when a certain action or event occurs. 
+
+<script>
+    const analyticsScript = document.createElement("script");
+    analyticsScript.src = "assets/scripts/analytics.js";
+    analyticsScript.defer = true;
+
+    document.head.append(analyticsScript);
+</script>
+
+# Timing and Intervals
+
+This will wait for 3000 milliseconds before the code is executed. Note that this will not pause script execution. Instead it will come back to your script once the timer expires. This is an example of asynchronus Javscript!
+
+<script>
+  const timerId = setTimeout(this.startAnalytics, 3000);
+
+  clearTimeout(timerId); // to stop timeout
+</script>
+
+What if you want to execute a function at a certain interval?
+
+<script>
+  const interVal = setInterval(() => {
+  console.log("Sending analytics data...");
+}, 2000);
+
+  clearInterval(timerId); // to stop interval, though clearTimeOut also works!!
+
+</script>
+
+# The Location Object
+
+Location allows you to navigate between pages. It has good utilities such as host, origin, pathname etc. 
+
+# Window
+
+Location and history work together. Location allows you to change history, while history allows you to look at the path of the user. history.back() and history.forward() and history.length() are good examples of self explanatory methods there. 
+
+# The Navigator Object
+
+This allows you to interact with the browser and operating system of your user in a limited way. navigator.userAgent is used to check the operating system for example. 
+
+navigator.geolocation is useful for doing things with the user's position. 
+
+<script>
+  navigator.geolocation.getCurrentPosition((data)=>console.log(data));
+</script>
+
+# Working with Dates
+
+The Date object and constructor function provides useful features for date and time functionality. 
+
+<script>
+  const date = new Date();
+
+  const date2 = new Date('07/11/19'); // attempts to create a date object based on this
+
+  const duration = date - date2; // difference in time in milliseconds
+
+</script>
+
+# The Error Object
+
+<script>
+  throw new Error('something went wrong')
+</script>
+
+It is best to do it this way because this way you get a stack trace on the error itself. Also, being an object, you can add features to it!
+
+<script>
+  const customError = new Error('Something went wrong!');
+  console.dir(customError);
 </script>

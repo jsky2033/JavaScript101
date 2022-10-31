@@ -51,7 +51,7 @@ console.log(ids.has("E000"));
 - Duplicate KEYS are not allowed!
 - Key-based access
 
-It is essentially an object with these three differences:
+It is essentially an object with these four differences:
 
 - Map is ordered and iterable
 - We can put any type of data as a Map key whereas objects can only have a number, string or symbol as a key
@@ -59,6 +59,7 @@ It is essentially an object with these three differences:
 We know that if the object's key is not a string or symbol then JavaScript implicitly transforms it into a string wheras the Map returns the data type of the key.
 
 - A Map inherits from the Map class means it has special functions/utilities that makes working with it a lot easier.
+- Duplicate keys are not allowed!
 
 ### Use Case Example
 
