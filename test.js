@@ -1,22 +1,72 @@
-function Person() {
-  console.log("hello");
-  // this = {};
-  this.age = 30;
-  this.name = "Max";
+const button = document.querySelector("button");
+const output = document.querySelector("p");
 
-  this.greet = function () {
-    console.log(`Hello I am ${this.name} and I am ${this.age} years old`);
-  };
+/*
+The reason the wrapper function was written for the promise was
+so that there was a way of transferring data to the promise in
+a convinient way.
 
-  // static functions, ca
-  Person.describe = function () {
-    console.log("Creating persons...");
-  };
-  // return this;
+This is also known as 'promisifying' an API and the point is to place
+the code in a sequential promise chain. 
+
+The key thing to remember is that the parameter of the then() is the same
+as the parameter of resolve()
+
+resolve(data) ---> then((data)=>{console.log(data)})
+*/
+
+const setTimer = (duration) => {
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Done!");
+    }, duration);
+  });
+
+  return promise;
+};
+
+const getPosition = (opts) => {
+  const promise = new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (success) => {
+        resolve(success);
+      },
+      (error) => {
+        reject(error);
+      },
+      opts
+    );
+  });
+
+  return promise;
+};
+
+async function trackUserHandler() {
+  // this is known as promise chaining
+  try {
+    const posData = await getPosition();
+    const timerData = await setTimer(2000);
+
+    console.log(timerData, posData);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-Person(); // doesn't have to be called with "new"
+/*
 
-const person = new Person(); // this 'new' keyword is what creates the instantation
-person.greet();
+*/
 
+button.addEventListener("click", trackUserHandler);
+
+Promise.allSettled([getPosition(), setTimer(1000)]).then((data) => {
+  console.log(data);
+});
+
+// let result = 0;
+
+// for (let i = 0; i < 100000000; i++) {
+//   result += 1;
+// }
+
+// console.log("result");

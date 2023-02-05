@@ -54,7 +54,7 @@ This is essentially shorthand for certain ranges and characters
 
 Note that this includes uppercase letters, 0-0 and underscores (_'s)
 
-\s => match a whitespace character (spaces, tabs etc)
+\s => match a whitespace character (spaces, tabs etc), note that \S is anything BUT the whitespace
 
 \t => match a tab character
 
@@ -96,6 +96,8 @@ james.*jack|jack.*james
 
 a*  ---> a{0,}  ---> Match a or aa or aaaaa or an empty string
 a+  ---> a{1,}  ---> Match a or aa or aaaa but not a string empty
+
+So james.+jack would mean that jamesjack would not be caught as it needs something to be in between.
 
 - \
 

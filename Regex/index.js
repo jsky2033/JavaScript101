@@ -10,7 +10,7 @@ const patterns = {
 
 //validation function
 function validate(input) {
-  const regEx = patterns[input.name];
+  const regEx = this.patterns[input.name];
   if (regEx.test(input.value)) {
     input.classList.add("valid");
   } else {

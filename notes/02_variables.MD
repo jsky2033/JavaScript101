@@ -254,3 +254,9 @@ let name1="Jack", name2="Jill";
 let name1,name2;
 name1=name2="James";
 </script>
+
+# Hoisting
+
+Hoisting is the default behavior for var type variables that can be used before they are declared. HOWEVER they will be undefined and will not retain its initialized value. 
+
+Let and Const are hoisted as well but NOT initialized. Therefore any attempts to use them before they are declared will result in errors. 
