@@ -137,6 +137,10 @@ Let us say we are dealing with a list of items and we wish to assign event liste
 1. The event will bubble up to whatever is containing the list to which the listener can be added. 
 2. event.target will ALWAYS refer to the innermost HTML element being interacted with. It will always refer to the list item itself.
 
+This means that you don't necessarily have to add event listeners directly on the element you want to listen to! You can always add it to the parent and use event.target to ensure that the code fires when the specific event is clicked. 
+
+This also means that if you see the code firing multiple times, you should check to see if the parent element has had the event listener added to it as well!
+
 ## Accessing specific inner Elements
 
 event.target.closest looks UP the ancestor tree to the closest element that matches the CSS selector you supply it with. It is useful when you want the event target to listen to the item container instead of a specific item element. 
