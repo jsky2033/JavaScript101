@@ -29,8 +29,7 @@ function createAndWriteLog(operator, initialResult, opValue) {
 
 //mega-function for calculation
 function calculateResult(calculationType) {
-
-  let operationTypes = ["ADD", 'SUBTRACT', "MULTIPLY", 'DIVIDE'];
+  let operationTypes = ["ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"];
 
   let found = false;
   for (let op of operationTypes) {
@@ -39,15 +38,14 @@ function calculateResult(calculationType) {
     }
   }
 
-  //check 
+  //check
   if (!found || !calculationType) {
     alert(`INTERNAL ERROR: ${calculationType} is not a valid operation`);
     return;
   }
 
-
-
-  const opValue = getUserNumberInput();
+  const unfilValue = getUserNumberInput();
+  const opValue = !!unfilValue ? unfilValue : 0;
   let operation = "";
   const initialResult = currentResult;
   if (calculationType === "ADD") {
@@ -63,7 +61,6 @@ function calculateResult(calculationType) {
     currentResult /= opValue;
     operation = "/";
   }
-
 
   createAndWriteLog(operation, initialResult, opValue);
 }
@@ -83,8 +80,6 @@ function multiply() {
 function divide() {
   calculateResult("DIVIDE");
 }
-
-
 
 //add functions as event listeners
 addBtn.addEventListener("click", add);
