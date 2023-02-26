@@ -83,4 +83,36 @@ The data output by document.cookie is plain JS string so any kind of analysis of
 
 ## IndexedDB
 
-This is a clientside database that can manage complex data in it. Good for non-critical data. 
+This is a clientside database that can manage complex data in it. Good for non-critical data.
+
+
+A good example of this is in Project1_Vars
+
+
+# Browser Support
+
+Ideally you want your JS to work across all the Browsers. However some functions such as fetch() function which do not work across all browsers. 
+
+Transpiling refers to the means of getting newer Syntax to work with older browsers that only recognize previous versions. However, note that if the older Browsers do not have features like geolocation of users, it will not be able to do so regardless of this!
+
+## Feature Detection
+
+This is done in order to detect if features exist before using them and potentially causing error. 
+
+Instead of using a try/catch fail you could simply use feature detection to avoid these problems. 
+
+## Polyfills
+
+This is a third party package that adds features if they are not available on the browser. It essentially tries to use JS to duplicate the beahavior of the feature. 
+
+You can use caniuse or google for github code to use this. 
+
+## Transpilation
+
+Sometimes we want to use core JS syntax like let/const/async/await and make sure this works for older browsers. 
+
+The best way of doing this is through Babel
+
+# Note on NodeJS
+
+Here you have control over what code you run. So Transpilation will not be a problem here. 

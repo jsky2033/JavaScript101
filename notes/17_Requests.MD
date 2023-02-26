@@ -60,3 +60,4 @@ Understand that not all APIs support FormData! Some APIs strictly want JSON and 
 # Axios
 
 Axios is a third party library that enables easy use of requests. A good example of this is found in Project 10: Libraries!
+

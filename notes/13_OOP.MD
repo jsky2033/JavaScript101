@@ -8,9 +8,11 @@ Classes are blueprints for objects so that objects can be re-created using these
 
 So classes can be used to group together objects that have a similar structure but different data.
 
-# Field vs Property
+# Field vs Property vs Variables
 
 A property is a field that has been given a definition.
+
+Note that using variables in the class is different from using properties! Project 12 has good examples of how this distinction is made. 
 
 # Hoisting in Classes
 
@@ -29,6 +31,10 @@ Note that classes have limited hoisting. They can be used inside other classes b
 # Event Listeners inside Class Methods
 
 While event listeners can be assigned inside of Class Methods, there is one quirk:
+
+Note that 'this' inside of the function will properly refer to the object itself in a general case. However when it is used inside of an Event Listener, 'this' refers to the global context since it is called outside of the class itself.
+
+There are two ways to solve this
 
 <script>
     // class for Product rendering
@@ -61,9 +67,6 @@ class ProductElement {
 }
 </script>
 
-Note that 'this' inside of the function will properly refer to the object itself in a general case. However when it is used inside of an Event Listener, 'this' refers to the global context since it is called outside of the class itself.
-
-There are two ways to solve this
 
 # Static Methods and Properties
 

@@ -20,6 +20,10 @@ However function EXPRESSIONS(arrow functions) do not have this utility.
 
 Hoisting also works with variables somewhat. However it should be noted that there is no need to initialize variables.
 
+### Hoisting in Classes
+
+This does NOT apply for classes. Functions can be used inside of other functions regardless of order there. 
+
 # Functions vs. Methods
 
 Functions can be placed inside of objects and used through the object.
