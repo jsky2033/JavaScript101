@@ -78,8 +78,6 @@ async function createPost(form) {
   sendHttpRequest("POST", "https://jsonplaceholder.typicode.com/posts", fd);
 }
 
-// DELETE
-
 // event handlers
 
 // GET POSTS

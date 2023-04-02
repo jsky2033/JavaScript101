@@ -319,7 +319,7 @@ execute the code inside of it directly. When it is called in instantiation, the 
 
 # Prototypes
 
-Prototypes are essentially fall-back objects that every instance of a class or its subclasses can access in order to get methods or attributes that those methods lack.
+Prototypes are essentially fall-back objects that every instance of a class or its subclasses can access in order to get methods or attributes that those classes lack.
 
 Javascript uses Prototypical Inheritance. Constructor Functions and Prototypes power Javascript Objects.
 
@@ -355,7 +355,7 @@ Person.prototype.printAge = function(){
   console.log(this.age);
 }
 
-// this way also ensures you do not replace the prototype object for Person. 
+// this way also ensures you do not replace the prototype object for Person and lose methods
 
 // the equivalent:
 

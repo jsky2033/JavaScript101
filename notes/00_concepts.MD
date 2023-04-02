@@ -141,3 +141,25 @@ attackBtn.addEventListener("click", function (){
 </script>
 
 A brand new function is created every time the button is clicked and the Engine does not know that this new function is the exact same as the function before it. Therefore there is no technical 'removal' of the function itself through garbage collection since the function is ever present. 
+
+# Cross-Origin Resource Sharing (CORS)
+
+Let us say we have two servers:
+
+* frontend.com
+* backend.com
+
+By default only requests with the same origin are allowed by backend.com so it will refuse any attempt at communication from frontend.com!
+
+To relax this policy, we need to add some headers on the BACKEND side. This is because it is the frontend that is sending requests to the backend!
+
+See an example of this in Project 13:
+
+<script>
+    // CORS Policy
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+});
+</script>
