@@ -142,6 +142,20 @@ attackBtn.addEventListener("click", function (){
 
 A brand new function is created every time the button is clicked and the Engine does not know that this new function is the exact same as the function before it. Therefore there is no technical 'removal' of the function itself through garbage collection since the function is ever present. 
 
+<script>
+  const trackedItems = [];
+
+  const productEl = createElement(product, prodId);
+
+  trackedItems.push(productEl);
+
+  productEl.remove();
+</script>
+
+Another instance of a memory leak can be when we add items to an array which we remove from the DOM. The browser CANNOT remove all instances of productEl from the memory because it is still contained within the array even though the element itself has been removed from the DOM. 
+
+
+
 # Cross-Origin Resource Sharing (CORS)
 
 Let us say we have two servers:

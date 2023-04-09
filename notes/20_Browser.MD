@@ -52,7 +52,7 @@ It will not be affected by reloads however.
 
 ## Cookies
 
-Similar to localStorage but config options exist to do things like expire them after some time. 
+A browser storage feature Similar to localStorage but config options exist to do things like expire them after some time. 
 
 A key feature is that they are sent to the server with outgoing HTTP requests in the headers. This makes them extremely valuable for online advertising since the ad servers can now potentially identify the user using some identifyin key in the cookie. 
 

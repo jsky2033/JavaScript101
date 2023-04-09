@@ -92,9 +92,11 @@ hobbies.splice(1, 0, "Food");
 const splicedItems = hobbies.splice(2, 1);
 </script>
 
-- Doing splice(x) would delete everything past the 'x' value!
+- Doing splice(x) would delete everything past the 'x' value index inclusive!
 
 Splice alters the array itself, much like pop() does.
+
+This is useful for getting all values past a certain index
 
 - slice
 
@@ -315,6 +317,8 @@ const dataNames = ["City", "Price", "Year"];
 const transformedData = data.split(";").map((dataPoint, idx) => {
   return { [dataNames[idx]]: dataPoint };
 });
+
+// expected output: [new york,10.99,2000]
 </script>
 
 ## Array to String
