@@ -1,25 +1,23 @@
-const http = require("http");
+const age = [30, 29, 54];
 
-const server = http.createServer((request, response) => {
-  // Handle Request
-  let body = [];
-  /*
-  Note that these are asynchronous LISTENERS. They will only fire when the event happens.
-  */
-  request.on("data", (chunk) => {
-    body.push(chunk);
-  });
-  request.on("end", () => {
-    body = Buffer.concat(body).toString();
-    const userName = body.split("=")[1];
+age.push(60);
 
-    // Handle Response
-    response.setHeader("Content-Type", "text/html");
-    response.write(
-      `<h1>Hello ${userName}</<h1><form method="POST" action="/"><input name="username" type="text"><button type="submit">Send</button></form>`
-    );
-    response.end();
-  });
-});
+const namePop = [
+  { userName: "max", usages: 5 },
+  { userName: "manu", usages: 10 },
+];
 
-server.listen(3000);
+const manuUsages = namePop.find((person) => person.userName === "manu").usages;
+
+// BEST CASE: manu obj is first, CTC=> 0(1)
+// WORST CASE: manu obj comes later, LTC=> 0(n)
+// AVG CASE:  manu obj comes later, LTC=> 0(n)
+
+const nameMap = {
+  max: 5,
+  manu: 6,
+};
+
+const mapManuUsages = nameMap["manu"];
+
+// AVG CASE: manu obj always found in one execution, CTC => 0(1)
