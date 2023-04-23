@@ -211,10 +211,11 @@ Operators will follow the same precedence as basic math.
 
 ### Type Coercion
 
-This means that a value from one type can be converted to another type on the fly. So if a number is added to a string or some other operation is used, String concatanation is prioritized and the variable is set as string, but with the other operators, the variable is set as a number and the numeric operation is done.
+This means that a value from one type can be converted to another type on the fly. So if a number is ADDED to a string, String concatanation is prioritized and the variable is set as string, but with the other operators, the variable is set as a number and the numeric operation is done.
 
-5 + 10 + 'b' = 15b
-'b' + 5 + 10 = b510
+'3'+'2' = '32'
+5 + 10 + 'b' = '15b'
+'b' + 5 + 10 = 'b510'
 100-'30' = 70
 100\*'30'=300
 
