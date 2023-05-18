@@ -124,6 +124,8 @@ Button's event listener executes first. However the parameter, 'true' moves the 
 
 This process of having the same event being listened to through multiple ancestors is known as Propagation. Either through Bubbling or Capturing.
 
+So if there is a click event listener in the parent element, it will also activate when the inner element is clicked. 
+
 This can be prevented if you would like though
 
 Not all events propagate though! Click events are propagated but things like mouse hover or mouse move don't really propagate as it does not make much sense to do so. 

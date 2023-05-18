@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Web Components</title>
+    <script src="tooltip.js"></script>
+    <script src="confirm-link.js"></script>
+    <script src="hiddenContent.js"></script>
+    <script src="modal.js"></script>
+
+    <style>
+      html {
+        --color-primary: #a4e6fc;
+      }
+
+      .highlight {
+        background-color: yellow;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      <uc-tooltip text="Web Components is a set of standards"
+        ><span class="highlight">Web Components</span></uc-tooltip
+      >
+      are awesome!
+      <br />
+      <br />
+
+      <uc-tooltip class="important">The second web component</uc-tooltip>
+    </p>
+
+    <a is="uc-confirm-link" href="https://www.google.com">Google</a>
+
+    <br />
+    <br />
+
+    <uc-hidden-content
+      ><p>I have completed the assignment</p></uc-hidden-content
+    >
+
+    <uc-modal
+      ><h1 slot="title">Confirm your Choice</h1>
+      <p>I have completed the assignment</p></uc-modal
+    >
+
+    <p>Please confirm your choice</p>
+    <button>Show Details & Confirm</button>
+    <script>
+      const confirmButton = document.querySelector("button");
+      const modal = document.querySelector("uc-modal");
+
+      modal.addEventListener("cancel", () => {
+        console.log("Cancelled...");
+      });
+
+      modal.addEventListener("confirm", () => {
+        console.log("Confirmed!");
+      });
+
+      confirmButton.addEventListener("click", () => {
+        modal.open();
+      });
+    </script>
+  </body>
+</html>

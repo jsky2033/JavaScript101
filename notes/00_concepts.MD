@@ -154,7 +154,9 @@ A brand new function is created every time the button is clicked and the Engine 
 
 Another instance of a memory leak can be when we add items to an array which we remove from the DOM. The browser CANNOT remove all instances of productEl from the memory because it is still contained within the array even though the element itself has been removed from the DOM. 
 
+## A note about event listeners
 
+When an element is removed from the DOM, the browser goes ahead and removes all event listeners for that element. There is no need to do manual cleanup. 
 
 # Cross-Origin Resource Sharing (CORS)
 

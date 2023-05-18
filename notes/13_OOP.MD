@@ -12,7 +12,11 @@ So classes can be used to group together objects that have a similar structure b
 
 A property is a field that has been given a definition.
 
-Note that using variables in the class is different from using properties! Project 12 has good examples of how this distinction is made. 
+Note that using variables in the class is different from using properties! Project 12 has good examples of how this distinction is made.
+
+# Constructors
+
+Note that although the constructor is the first code to fire when an object is initialized, functions in the class can definitely be hoisted such that these functions can be used in the constructor. 
 
 # Hoisting in Classes
 
@@ -53,20 +57,21 @@ class ProductElement {
     // solution #1: use arrow keys, this always refers to whatever is outside function
     addToCart() {
     console.log(`Adding ${this.product.title} to cart`);
+    }
     addCartButton.addEventListener("click", () => {
       this.addToCart();
         });
-    }
+    
     // solution #2: use bind to bind 'this' which is the object itself at the time of exec
     addToCart() {
     console.log(`Adding ${this.product.title} to cart`);
-    addCartButton.addEventListener("click", this.addToCart.bind(this));
     }
+    addCartButton.addEventListener("click", this.addToCart.bind(this));
+    
     
 
 }
 </script>
-
 
 # Static Methods and Properties
 
@@ -151,6 +156,7 @@ Here both child classes inherit the properties of the main class but add propert
 # Calling Constructors in Subclasses
 
 Let us say there is a constructor in the main class. How will the subclass handle that constructor? Especially when it has its own constructors? We use the super() which is essentially calling the constructor of the parent function and setting those properties.
+
 
 # Overriding Methods
 
@@ -418,7 +424,7 @@ See Project 6 for a clear example.
     moreInfoItemBtn.addEventListener("click", this.showMoreInfoHandler.bind(this));
 </script>
 
-Note that this can also be avoided by using arrow functions in the event listener which will cause it to always refer to 'this' in the local context. In the case below, the event listener will understand that 'this' refers to the local class. 
+Note that this can also be avoided by using arrow functions in the event listener which will cause it to always refer to 'this' in the local context. In the case below, the event listener will understand that 'this' refers to the local class.
 
 <script>
   class App{
